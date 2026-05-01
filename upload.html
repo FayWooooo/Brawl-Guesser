@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>影片投稿 | Brawl Guesser</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="asset/upload.css">
+</head>
+<body>
+ <nav class="glass-nav">
+    <div class="container nav-container">
+             <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <i class="fa-solid fa-crosshairs" ></i> 
+                Brawl Guesser
+            </div>
+
+        <!-- 漢堡按鈕 -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <!-- 導覽連結 -->
+        <div class="nav-links" id="nav-menu">
+                            <div id="auth-section">
+                    <button class="btn-login" onclick="login()">
+                        <i class="fa-brands fa-google"></i> Google 登入
+                    </button>
+                </div>
+                <a href="game.html"><i class="fa-solid fa-gamepad"></i> 開始遊玩</a>
+                <a href="quests.html"><i class="fa-solid fa-list-check"></i> 任務中心</a>
+                <a href="shop.html"><i class="fa-solid fa-bag-shopping"></i> 積分商城</a>
+                <a href="upload.html"><i class="fa-solid fa-cloud-arrow-up"></i> 影片投稿</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- 點擊選單外的遮罩層 -->
+<div class="menu-overlay" id="menu-overlay"></div>
+
+    <div id="upload-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center; backdrop-filter: blur(8px);">
+        <div style="background:#1a1a1a; padding:40px; border-radius:24px; width:90%; max-width:400px; text-align:center; border: 1px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+            <h3 id="modal-status" style="margin:0 0 20px 0; color:#fff; font-size: 1.25rem; font-family: 'SF Pro Display', sans-serif;">準備上傳...</h3>
+            <p style="color:#888; font-size:0.85rem; margin-top:15px;">檔案較大時請耐心等候，請勿關閉或重新整理網頁</p>
+        </div>
+    </div>
+
+    <section class="upload-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="reveal">投稿你的神操作</h2>
+                <p class="reveal">影片一旦被選中並放入遊戲，你將獲得 <strong style="color: #FFD700;">500 點積分</strong> 獎勵！</p>
+            </div>
+
+            <div class="upload-card glass reveal" id="upload-container-card" style="transition: all 0.4s ease;">
+                <div class="drop-zone" id="drop-zone">
+                    <div class="drop-zone-content">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <p>點擊或拖拽影片至此處</p>
+                        <span class="file-limit">僅支援 MP4 格式，檔案大小需小於 50MB</span>
+                    </div>
+                    <input type="file" id="file-input" hidden accept="video/mp4">
+                    <div id="file-info" class="file-info" style="display: none; margin-top: 15px; color: #00d2ff; font-weight: 500; background: rgba(0,210,255,0.1); padding: 8px 15px; border-radius: 8px;"></div>
+                </div>
+                
+                <div class="upload-form">
+                    <div class="form-group">
+                        <label for="video-title">影片標題</label>
+                        <input type="text" id="video-title" placeholder="例如：這波居然活下來了？ (會顯示給玩家看)" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="video-category">結局類型 (用於設置正確預測選項)</label>
+                        <select id="video-category">
+                            <option value="win">反殺獲勝 (贏了)</option>
+                            <option value="lose">遺憾落敗 (輸了)</option>
+                            <option value="funny">搞笑意外 (笑死)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-primary submit-btn" id="submit-btn" onclick="handleUpload()">
+                        <span id="btn-text">確認投稿</span>
+                    </button>
+
+                    <div id="upload-status-hint" style="margin-top: 15px; text-align: center; font-size: 0.85rem; color: #888;">
+                        <i class="fa-solid fa-circle-info"></i> 每部影片經過審核後，積分會自動發放到你的帳戶。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/upload.js"></script>
+</body>
+</html>

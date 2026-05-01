@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brawl Guesser - 管理員終端</title>
+    
+    <link rel="stylesheet" href="asset/admin.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="admin-lock">
+        <div class="loader-content">
+            <i class="fa-solid fa-gear fa-spin"></i>
+            <h1>正在驗證管理員權限...</h1>
+        </div>
+    </div>
+
+    <div class="admin-container" id="admin-content">
+        <header>
+            <h1><i class="fa-solid fa-shield-cat"></i> 遊戲管理終端</h1>
+        </header>
+
+        <section class="card">
+            <h2><i class="fa-solid fa-coins"></i> 資源管理系統</h2>
+            <div class="flex-row">
+                <select id="user-select">
+                    <option value="">正在掃描玩家...</option>
+                </select>
+                <input type="number" id="point-amount" placeholder="輸入數值">
+                <div class="button-group">
+                    <button class="btn-blue" onclick="updatePoints('add')">增加</button>
+                    <button class="btn-green" onclick="updatePoints('set')">設定</button>
+                    <button class="btn-red" onclick="updatePoints('zero')">歸零</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2><i class="fa-solid fa-clapperboard"></i> 待處理戰報</h2>
+            <div id="pending-list">
+                <p class="status-text">載入中...</p>
+            </div>
+        </section>
+
+        <section id="editor-zone" class="card editor-card" style="display:none;">
+            <h3 id="editing-title">編輯影片</h3>
+            
+            <div class="video-preview-wrapper">
+                <video id="review-video" controls></video>
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>暫停時間 (秒):</label>
+                    <div class="input-with-btn">
+                        <input type="number" id="pause-time" step="0.1">
+                        <button class="btn-gold" onclick="setCurrentTime()">
+                            <i class="fa-solid fa-stopwatch"></i> 抓取
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>題目內容:</label>
+                    <textarea id="quiz-q" placeholder="例如：這球最後進了嗎？"></textarea>
+                </div>
+
+                <div class="options-container full-width">
+                    <label>答案配置 (首位為正確答案):</label>
+                    <div class="option-grid">
+                        <input type="text" id="opt-1" class="correct-input" placeholder="✅ 正確答案">
+                        <input type="text" id="opt-2" placeholder="❌ 錯誤選項 1">
+                        <input type="text" id="opt-3" placeholder="❌ 錯誤選項 2">
+                        <input type="text" id="opt-4" placeholder="❌ 錯誤選項 3">
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-footer">
+                <button class="btn-green big-btn" onclick="approveVideo()">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> 通過發布
+                </button>
+                <button class="btn-red big-btn" onclick="rejectVideo()">
+                    <i class="fa-solid fa-ban"></i> 退回投稿
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Brawl Guesser - 遊戲挑戰</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <link rel="stylesheet" href="asset/game.css">
+</head>
+<body>
+
+<nav class="glass-nav">
+    <div class="container nav-container">
+             <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <i class="fa-solid fa-crosshairs" ></i> 
+                Brawl Guesser
+            </div>
+
+        <!-- 漢堡按鈕 -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <!-- 導覽連結 -->
+        <div class="nav-links" id="nav-menu">
+                            <div id="auth-section">
+                    <button class="btn-login" onclick="login()">
+                        <i class="fa-brands fa-google"></i> Google 登入
+                    </button>
+                </div>
+                <a href="game.html"><i class="fa-solid fa-gamepad"></i> 開始遊玩</a>
+                <a href="quests.html"><i class="fa-solid fa-list-check"></i> 任務中心</a>
+                <a href="shop.html"><i class="fa-solid fa-bag-shopping"></i> 積分商城</a>
+                <a href="upload.html"><i class="fa-solid fa-cloud-arrow-up"></i> 影片投稿</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- 點擊選單外的遮罩層 -->
+<div class="menu-overlay" id="menu-overlay"></div>
+
+    <main class="container game-main">
+        
+        <div class="video-section">
+            <div class="video-container">
+                <video id="game-video" playsinline></video>
+                
+                <div id="quiz-overlay" class="quiz-overlay">
+                    <div class="quiz-card">
+                        <h2 id="quiz-question">準備中...</h2>
+                        <div id="options-grid" class="options-grid"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="video-info">
+                <h1 id="video-title">請先選擇題數</h1>
+                <p id="video-desc">請先選擇題數！</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/game.js"></script>
+
+</body>
+</html>

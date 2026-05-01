@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brawl Guesser | 荒野猜猜樂 - 預判你的勝利</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="asset/index.css">
+</head>
+<body>
+
+    <nav class="glass-nav">
+    <div class="container nav-container">
+             <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <i class="fa-solid fa-crosshairs" ></i> 
+                Brawl Guesser
+            </div>
+
+        <!-- 漢堡按鈕 -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <!-- 導覽連結 -->
+        <div class="nav-links" id="nav-menu">
+                            <div id="auth-section">
+                    <button class="btn-login" onclick="login()">
+                        <i class="fa-brands fa-google"></i> Google 登入
+                    </button>
+                </div>
+                <a href="game.html"><i class="fa-solid fa-gamepad"></i> 開始遊玩</a>
+                <a href="quests.html"><i class="fa-solid fa-list-check"></i> 任務中心</a>
+                <a href="shop.html"><i class="fa-solid fa-bag-shopping"></i> 積分商城</a>
+                <a href="upload.html"><i class="fa-solid fa-cloud-arrow-up"></i> 影片投稿</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- 點擊選單外的遮罩層 -->
+<div class="menu-overlay" id="menu-overlay"></div>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-tag reveal">Brawl Stars Community Project</div>
+            <h1 class="reveal">看準時機，<br><span class="gradient-text">一擊即中</span></h1>
+            <p class="reveal">全台首創《荒野亂鬥》影片互動社群。在這裡，預判不只是運氣，更是通往勝利的唯一捷徑。登入會員參與挑戰，贏取專屬獎勵。</p>
+            <div class="hero-btns reveal">
+                <a href="game.html" class="btn-primary">立即開始挑戰</a>
+                <a href="upload.html" class="btn-secondary">我想投稿影片</a>
+            </div>
+        </div>
+        <div class="blob"></div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="reveal">如何運作？</h2>
+                <p class="reveal">簡單三步驟，從玩家晉升為預言大師</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card glass reveal">
+                    <i class="fa-solid fa-play"></i>
+                    <h3>1. 觀察片段</h3>
+                    <p>觀看由社群成員投稿的真實對戰片段，分析現場每一秒的戰局走向。</p>
+                </div>
+                <div class="feature-card glass active-border reveal">
+                    <i class="fa-solid fa-pause"></i>
+                    <h3>2. 瞬間決策</h3>
+                    <p>影片將在關鍵轉折點自動停頓，Admin 已為你準備好4個可能的結局。</p>
+                </div>
+                <div class="feature-card glass reveal">
+                    <i class="fa-solid fa-trophy"></i>
+                    <h3>3. 領取獎勵</h3>
+                    <p>猜對即可獲得積分，積分可用於商城兌換限定頭銜、社群特權。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo"><i class="fa-solid fa-crosshairs"></i> Brawl Guesser</div>
+                    <p>由 Web Ctrler 網頁操控家 打造的互動社群平台</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>社群</h4>
+                        <a href="https://www.youtube.com/@FayWooooo" target="_blank"><i class="fa-brands fa-youtube"></i> 版主 YouTube</a>
+                        <a href="https://www.instagram.com/faywooooo_bs" target="_blank"><i class="fa-brands fa-instagram"></i> 版主 Instagram</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>支援</h4>
+                        <a href="upload.html">投稿問題</a>
+                        <a href="mailto:faywooooo@gmail.com">商務合作</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">© 2026 Brawl Guesser. Not affiliated with or endorsed by Supercell.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

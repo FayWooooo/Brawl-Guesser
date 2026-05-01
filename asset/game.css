@@ -1,0 +1,249 @@
+:root {
+    --primary: #0071e3;
+    --primary-light: #42a5f5;
+    --success: #34c759;
+    --danger: #ff453a;
+    --warning: #ffd700;
+    --bg: #000;
+    --card-bg: rgba(28, 28, 30, 0.7);
+    --text: #f5f5f7;
+    --gray: #86868b;
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* --- 導覽列風格 --- */
+.glass-nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 15px 0; border-bottom: 1px solid var(--glass-border);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.nav-container { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+
+.nav-links { display: flex; align-items: center; gap: 25px; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+.nav-links a:hover { color: #fff; }
+
+/* --- 遊戲主佈局 --- */
+.game-main {
+    padding-top: 120px;
+    padding-bottom: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.video-section {
+    width: 100%;
+    max-width: 900px;
+    border-radius: 28px;
+    overflow: hidden;
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+#game-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+/* --- 題目遮罩 --- */
+.quiz-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: none; /* 由 JS 切換為 flex */
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    padding: 20px;
+}
+
+.quiz-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 40px;
+    text-align: center;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+#quiz-question {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    background: linear-gradient(180deg, #fff 0%, #888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.option-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 18px 20px;
+    border-radius: 18px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option-btn:hover {
+    background: var(--primary);
+    transform: scale(1.03) translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 113, 227, 0.4);
+}
+
+/* --- 用戶 UI 膠囊 --- */
+.user-status-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    padding: 4px 6px 4px 12px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.user-points {
+    color: var(--warning);
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #333;
+}
+
+.video-info { padding: 30px 40px; }
+.video-info h1 { font-size: 1.6rem; color: #fff; margin-bottom: 8px; }
+.video-info p { color: var(--gray); }
+
+footer { padding: 50px 0; text-align: center; border-top: 1px solid var(--glass-border); }
+.copyright { color: var(--gray); font-size: 0.85rem; }
+.video-container::after {
+    content: '🔇 影片預設靜音';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    pointer-events: none;
+}/* --- 漢堡選單基礎樣式 --- */
+.menu-toggle {
+    display: none; /* 電腦版隱藏 */
+    flex-direction: column;
+    cursor: pointer;
+    gap: 6px;
+    z-index: 1001;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text);
+    transition: 0.3s ease;
+    border-radius: 2px;
+}
+
+/* --- 手機版響應式 (max-width: 768px) --- */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex; /* 手機版顯示 */
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; /* 初始隱藏在右側 */
+        width: 70%;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        border-left: 1px solid var(--glass-border);
+    }
+
+    .nav-links.active {
+        right: 0; /* 展開選單 */
+    }
+
+    .nav-links a {
+        font-size: 1.2rem;
+        color: #fff;
+    }
+
+    /* 漢堡按鈕變叉叉 */
+    .menu-toggle.active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+    .menu-toggle.active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    /* 遮罩層 */
+    .menu-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+    .menu-overlay.active { display: block; }
+
+    /* 手機版用戶資訊調整 */
+    .user-status-pill {
+        flex-direction: row-reverse;
+        background: rgba(255,255,255,0.05);
+    }
+}

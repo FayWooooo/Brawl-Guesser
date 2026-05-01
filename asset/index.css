@@ -1,0 +1,647 @@
+:root {
+    --primary: #0071e3;
+    --bg: #000;
+    --card-bg: rgba(28, 28, 30, 0.7);
+    --text: #f5f5f7;
+    --gray: #86868b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'SF Pro Display', 'Noto Sans TC', sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* Glassmorphism */
+.glass {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+}
+
+/* Nav */
+.glass-nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.7);
+}
+.nav-container { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+.nav-links { display: flex; align-items: center; gap: 25px; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+.nav-links a:hover { color: #fff; }
+
+.btn-login {
+    background: #fff; color: #000; border: none; padding: 8px 18px;
+    border-radius: 20px; font-weight: 600; cursor: pointer;
+}
+
+/* Hero */
+.hero {
+    height: 100vh; display: flex; align-items: center; padding-top: 80px;
+    position: relative; overflow: hidden;
+}
+.hero h1 { font-size: 4.5rem; line-height: 1.1; margin: 20px 0; }
+.gradient-text {
+    background: linear-gradient(90deg, #0071e3, #42a5f5);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-tag { color: var(--primary); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+.hero-btns{
+    margin-top: 50px;
+}
+.btn-primary { background: var(--primary); color: #fff; text-decoration: none; padding: 12px 30px; border-radius: 30px; margin-right: 15px; display: inline-block; }
+.btn-secondary { color: #fff; text-decoration: none; border: 1px solid #fff; padding: 12px 30px; border-radius: 30px; display: inline-block; }
+
+/* Stats */
+.stats { padding: 60px 0; background: #0b0b0c; }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; }
+.stat-num { font-size: 2.5rem; font-weight: 700; color: var(--primary); }
+.stat-label { color: var(--gray); font-size: 0.9rem; }
+
+/* Feature Cards */
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 50px; }
+.feature-card { padding: 40px; text-align: left; transition: 0.3s; }
+.feature-card i { font-size: 2rem; color: var(--primary); margin-bottom: 20px; }
+.active-border { border: 1px solid var(--primary); }
+
+/* Missions */
+.missions { padding: 100px 0; }
+.mission-box { padding: 30px; max-width: 600px; margin: 0 auto; }
+.mission-header { display: flex; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+.mission-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.m-title { font-weight: 600; }
+.m-desc { font-size: 0.85rem; color: var(--gray); }
+.m-reward { color: #34c759; font-weight: 700; }
+
+.badge { background: var(--primary); font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; }
+
+footer { padding: 50px 0; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
+.footer-content { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.social-links a { color: var(--text); font-size: 1.2rem; margin-left: 20px; }
+.copyright { font-size: 0.8rem; color: var(--gray); }
+.user-status-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 4px 6px 4px 12px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.user-status-pill:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.user-points {
+    color: #ffd700;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+/* --- 基礎變數與排版優化 --- */
+:root {
+    --primary: #0071e3;
+    --primary-light: #42a5f5;
+    --success: #34c759;
+    --warning: #ffd700;
+    --bg: #000;
+    --card-bg: rgba(28, 28, 30, 0.6);
+    --text: #f5f5f7;
+    --gray: #86868b;
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+section { padding: 120px 0; } /* 增加間距讓畫面有呼吸感 */
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-header h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+}
+
+.section-header p {
+    color: var(--gray);
+    font-size: 1.2rem;
+}
+
+/* --- 如何運作 (Features) 優化 --- */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    padding: 50px 40px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    background: rgba(44, 44, 46, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.feature-card i {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 30px;
+    display: block;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.feature-card p {
+    color: var(--gray);
+    line-height: 1.6;
+}
+
+.active-border {
+    border: 1px solid var(--primary);
+    box-shadow: inset 0 0 20px rgba(0, 113, 227, 0.1);
+}
+
+/* --- 任務中心 (Quests) 優化 --- */
+.quests {
+    background: linear-gradient(180deg, #000 0%, #0b0b0c 100%);
+}
+
+.quest-box {
+    padding: 40px;
+    max-width: 700px;
+    margin: 0 auto;
+    border: 1px solid var(--glass-border);
+}
+
+.quest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.quest-header h3 {
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quest-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.quest-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.m-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.m-desc {
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+.m-reward {
+    background: rgba(52, 199, 89, 0.1);
+    color: var(--success);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.quest-footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.link-more {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.link-more:hover {
+    letter-spacing: 1px;
+}
+
+/* --- Footer 優化 --- */
+footer {
+    padding: 80px 0 40px;
+    background: #000;
+    border-top: 1px solid var(--glass-border);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    text-align: left;
+    gap: 50px;
+    margin-bottom: 60px;
+}
+
+.footer-brand .logo {
+    margin-bottom: 15px;
+}
+
+.footer-brand p {
+    color: var(--gray);
+    font-size: 0.95rem;
+    max-width: 300px;
+}
+
+.link-group h4 {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.link-group a {
+    display: block;
+    color: var(--gray);
+    text-decoration: none;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.link-group a:hover {
+    color: var(--primary);
+}
+
+.footer-bottom {
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.copyright {
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+/* 響應式微調 */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .footer-brand p {
+        margin: 0 auto;
+    }
+    .hero h1 { font-size: 3rem; }
+    .section-header h2 { font-size: 2.2rem; }
+}
+
+/* --- 1. 基礎變數與重置 --- */
+:root {
+    --primary: #0071e3;
+    --primary-light: #42a5f5;
+    --success: #34c759;
+    --danger: #ff453a;
+    --warning: #ffd700;
+    --bg: #000;
+    --card-bg: rgba(28, 28, 30, 0.7);
+    --text: #f5f5f7;
+    --gray: #86868b;
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'SF Pro Display', 'Noto Sans TC', sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* --- 2. 導覽列與膠囊設計 --- */
+.glass-nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 15px 0; border-bottom: 1px solid var(--glass-border);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+}
+
+.nav-container { display: flex; justify-content: space-between; align-items: center; }
+
+.nav-links { display: flex; align-items: center; gap: 25px; }
+
+.nav-links a { 
+    color: var(--gray); 
+    text-decoration: none; 
+    font-size: 0.9rem; 
+    transition: 0.3s; 
+}
+
+.nav-links a:hover { color: #fff; }
+
+/* 登入按鈕 */
+.btn-login {
+    background: #fff; color: #000; border: none; padding: 8px 20px;
+    border-radius: 20px; font-weight: 600; cursor: pointer;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-login:hover { transform: scale(1.05); background: #f5f5f7; }
+
+/* --- 3. 登入後的用戶 UI (重要) --- */
+.user-container {
+    position: relative;
+}
+
+/* 頭像膠囊 */
+.user-status-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    padding: 4px 6px 4px 12px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.user-status-pill:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.user-points {
+    color: var(--warning);
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    object-fit: cover;
+}
+
+/* 下拉選單 */
+.user-menu {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+    width: 220px;
+    padding: 12px;
+    display: none; /* 由 JS 切換 active 類別 */
+    flex-direction: column;
+    gap: 4px;
+    z-index: 1001;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    transform-origin: top right;
+    animation: menuAppear 0.3s ease;
+}
+
+.user-menu.active {
+    display: flex;
+}
+
+@keyframes menuAppear {
+    from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.menu-info {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--glass-border);
+    margin-bottom: 8px;
+}
+
+.menu-email {
+    font-size: 0.75rem;
+    color: var(--gray);
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-menu a, .btn-logout {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 12px;
+    transition: 0.2s;
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.user-menu a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* 登出按鈕特別色 */
+.btn-logout {
+    color: var(--danger);
+    margin-top: 5px;
+    border-top: 1px solid var(--glass-border);
+    border-radius: 0 0 12px 12px;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 69, 58, 0.1);
+}
+
+/* --- 4. 玻璃擬態通用樣式 --- */
+.glass {
+    background: var(--card-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+}
+
+/* --- 5. 其他區塊補充 --- */
+.section-header h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.feature-card {
+    padding: 40px;
+    border-radius: 24px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.active-border {
+    border: 1px solid var(--primary);
+    box-shadow: 0 0 30px rgba(0, 113, 227, 0.2);
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+}
+/* --- 手機版漢堡選單樣式 --- */
+.menu-toggle {
+    display: none; /* 電腦版隱藏 */
+    flex-direction: column;
+    cursor: pointer;
+    gap: 6px;
+    z-index: 1001;
+    padding: 5px;
+}
+
+.bar {
+    width: 25px;
+    height: 2px;
+    background-color: var(--text);
+    transition: 0.3s ease;
+    border-radius: 2px;
+}
+
+/* --- 全域手機版響應式設計 (max-width: 768px) --- */
+@media (max-width: 768px) {
+    /* 1. 導覽列與漢堡選單 */
+    .menu-toggle { display: flex; }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; /* 預設在螢幕外 */
+        width: 75%;
+        height: 100vh;
+        background: rgba(10, 10, 12, 0.98);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        flex-direction: column;
+        justify-content: center;
+        gap: 35px;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        border-left: 1px solid var(--glass-border);
+        padding: 40px;
+    }
+
+    .nav-links.active { right: 0; } /* 展開選單 */
+
+    .nav-links a { font-size: 1.2rem; width: 100%; text-align: center; }
+
+    /* 2. 漢堡按鈕變換動畫 (X形) */
+    .menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+    .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* 3. 背景遮罩層 */
+    .menu-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
+        z-index: 999;
+    }
+    .menu-overlay.active { display: block; }
+
+    /* 4. Hero 區塊優化 */
+    .hero { height: auto; padding: 140px 0 80px; text-align: center; }
+    .hero h1 { font-size: 2.8rem; letter-spacing: -1px; }
+    .hero-btns { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+    .btn-primary, .btn-secondary { margin: 0; width: 100%; max-width: 300px; text-align: center; }
+
+    /* 5. 數據統計與卡片調整 */
+    .stats-grid { grid-template-columns: 1fr; gap: 30px; }
+    .section-header h2 { font-size: 2.2rem; }
+    .feature-grid { grid-template-columns: 1fr; }
+    
+    /* 6. 任務中心調整 */
+    .quest-box { padding: 25px 15px; border-radius: 20px; }
+    .quest-item { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .m-reward { align-self: flex-end; }
+
+    /* 7. Footer 調整 */
+    .footer-content { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+    .footer-brand p { margin: 0 auto; }
+    .user-status-pill { scale: 0.9; }
+}
+
+/* 針對極小螢幕優化 */
+@media (max-width: 480px) {
+    .hero h1 { font-size: 2.4rem; }
+    .logo span { display: none; } /* 只顯示圖示 */
+}

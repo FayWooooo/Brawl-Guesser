@@ -1,0 +1,203 @@
+/* --- Brawl Guesser 現代版後台風格 --- */
+:root {
+    --primary: #0071e3;          /* Apple Blue */
+    --primary-light: #42a5f5;
+    --success: #34c759;
+    --danger: #ff453a;
+    --warning: #ffd700;
+    --bg: #000;
+    --card-bg: rgba(28, 28, 30, 0.7);
+    --text: #f5f5f7;
+    --gray: #86868b;
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'SF Pro Display', 'SF Pro Text', 'Noto Sans TC', sans-serif;
+    line-height: 1.5;
+    padding: 40px 20px;
+}
+
+/* 玻璃擬態通用卡片 */
+.glass {
+    background: var(--card-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* 權限遮罩 */
+#admin-lock {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg); z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+}
+
+#admin-lock h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--gray);
+    letter-spacing: 1px;
+}
+
+.admin-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: none; /* 由 JS 開放 */
+    animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.card {
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+h2 i { color: var(--primary); }
+
+/* 輸入框與選單設計 */
+select, input, textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: 0.3s;
+}
+
+select:focus, input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* 專業按鈕樣式 */
+button {
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover { transform: translateY(-2px); opacity: 0.9; }
+button:active { transform: translateY(0); }
+
+.btn-blue { background: var(--primary); color: #fff; }
+.btn-green { background: var(--success); color: #fff; }
+.btn-red { background: rgba(255, 69, 58, 0.15); color: var(--danger); border: 1px solid rgba(255, 69, 58, 0.3); }
+.btn-red:hover { background: var(--danger); color: #fff; }
+.btn-gold { background: #fff; color: #000; }
+
+/* 佈局組件 */
+.flex-row { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+.button-group { display: flex; gap: 10px; }
+
+/* 審核編輯器區塊 */
+.editor-card {
+    border: 1px solid rgba(0, 113, 227, 0.3);
+}
+
+.video-preview-wrapper {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+    margin-bottom: 25px;
+    border: 1px solid var(--glass-border);
+}
+
+video { width: 100%; display: block; }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+}
+
+.input-with-btn {
+    display: flex;
+    gap: 10px;
+}
+
+.input-with-btn input { flex: 1; }
+
+.full-width { grid-column: 1 / -1; }
+
+.option-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.correct-input {
+    border-color: rgba(52, 199, 89, 0.5) !important;
+    background: rgba(52, 199, 89, 0.05) !important;
+}
+
+.action-footer {
+    display: flex;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.big-btn {
+    flex: 1;
+    padding: 15px;
+    font-size: 1rem;
+    border-radius: 14px;
+}
+
+/* 列表項 */
+#pending-list .status-text {
+    color: var(--gray);
+    text-align: center;
+    padding: 20px;
+}
+
+.pending-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px 20px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid transparent;
+    transition: 0.3s;
+}
+
+.pending-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--glass-border);
+}
