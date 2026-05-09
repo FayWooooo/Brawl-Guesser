@@ -246,4 +246,22 @@ footer { padding: 50px 0; text-align: center; border-top: 1px solid var(--glass-
         flex-direction: row-reverse;
         background: rgba(255,255,255,0.05);
     }
+}/* 禁止對影片進行任何點擊或觸控 */
+#game-video {
+    pointer-events: none; /* 使用者點不到影片，無法暫停或調整進度條 */
+    user-select: none;
+    -webkit-user-select: none;
+    /* 避免手機長按彈出儲存選項 */
+    -webkit-touch-callout: none;
+}
+
+/* 確保容器也無法右鍵 */
+.video-container {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}.btn-login {
+    background: #fff; color: #000; border: none; padding: 8px 18px;
+    border-radius: 20px; font-weight: 600; cursor: pointer;
 }
