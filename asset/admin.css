@@ -99,7 +99,10 @@ select:focus, input:focus, textarea:focus {
     border-color: var(--primary);
     background: rgba(255, 255, 255, 0.1);
 }
-
+select option {
+    background: var(--bg);
+    color: var(--text);
+}
 /* 專業按鈕樣式 */
 button {
     border: none;

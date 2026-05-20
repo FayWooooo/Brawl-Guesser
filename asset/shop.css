@@ -1,0 +1,518 @@
+/* --- Brawl Guesser 統一風格商城樣式 --- */
+
+/* --- 1. 基礎變數與重置 (繼承 index.css) --- */
+:root {
+    --primary: #0071e3;
+    --primary-light: #42a5f5;
+    --success: #34c759;
+    --danger: #ff453a;
+    --warning: #ffd700;
+    --bg: #000;
+    --card-bg: rgba(28, 28, 30, 0.7); /* 統一 Apple 深色卡片背景 */
+    --text: #f5f5f7;
+    --gray: #86868b;
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'SF Pro Display', 'Noto Sans TC', sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+/* --- 2. 導覽列與用戶 UI (一致風格) --- */
+.glass-nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 15px 0; border-bottom: 1px solid var(--glass-border);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* 用戶狀態膠囊 */
+.user-status-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    padding: 4px 6px 4px 12px;
+    border-radius: 40px;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.user-status-pill:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+/* --- 3. 商城主內容區 --- */
+.shop-main {
+    padding-top: 120px; /* 避開 Nav */
+    padding-bottom: 80px;
+    min-height: 100vh;
+}
+
+.shop-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.shop-header h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- 4. 分類切換 (Tabs) --- */
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    padding: 5px;
+}
+
+.tab {
+    padding: 10px 24px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--gray);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.tab.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary-light);
+    box-shadow: 0 8px 20px rgba(0, 113, 227, 0.3);
+}
+.logo { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+
+/* --- 5. 商品網格與卡片 (一致玻璃擬態) --- */
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.reward-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 35px 25px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reward-card:hover {
+    transform: translateY(-10px);
+    background: rgba(44, 44, 46, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+.reward-icon {
+    font-size: 3.5rem;
+    color: var(--primary);
+    margin-bottom: 25px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    filter: drop-shadow(0 0 10px rgba(0, 113, 227, 0.3));
+}
+
+.reward-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.reward-desc {
+    font-size: 0.95rem;
+    color: var(--gray);
+    line-height: 1.5;
+    margin-bottom: 25px;
+    min-height: 45px;
+}
+
+.price-tag {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--warning); /* 一致的金色 */
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* --- 6. 購買按鈕 (繼承 index.css 互動) --- */
+.buy-btn {
+    width: 100%;
+    padding: 16px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.buy-btn:hover:not(:disabled) {
+    background: var(--primary);
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 113, 227, 0.3);
+}
+
+.buy-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* --- 7. 手機版響應式設計 (一致性調整) --- */
+@media (max-width: 768px) {
+    .shop-header h2 { font-size: 2.2rem; }
+    
+    .category-tabs {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .shop-grid {
+        grid-template-columns: 1fr;
+        padding: 0 10px;
+    }
+
+    .reward-card {
+        padding: 30px 20px;
+    }
+
+    /* 手機版導覽列動畫 */
+    .nav-links {
+        position: fixed; top: 0; right: -100%;
+        width: 75%; height: 100vh;
+        background: rgba(10, 10, 12, 0.98);
+        backdrop-filter: blur(30px);
+        flex-direction: column;
+        justify-content: center;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        border-left: 1px solid var(--glass-border);
+    }
+    
+    .nav-links.active { right: 0; }
+}
+
+/* 骨架屏動畫 */
+.skeleton {
+    height: 380px;
+    border-radius: 28px;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.03) 25%, 
+        rgba(255, 255, 255, 0.08) 50%, 
+        rgba(255, 255, 255, 0.03) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border: 1px solid var(--glass-border);
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}/* --- 導覽列容器 (Glass Nav) --- */
+.glass-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 15px 0;
+    background: rgba(0, 0, 0, 0.75); /* 半透明背景 */
+    backdrop-filter: blur(20px); /* 關鍵玻璃效果 */
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- 導覽連結 --- */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-links a {
+    color: #86868b; /* Apple Gray */
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: #fff;
+}
+
+/* --- 用戶積分膠囊 (User Status Pill) --- */
+.user-status-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 4px 6px 4px 12px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.user-status-pill:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.user-points {
+    color: #ffd700; /* 金色積分 */
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    object-fit: cover;
+}
+
+/* --- 手機版漢堡選單 --- */
+.menu-toggle {
+    display: none; /* 平時隱藏 */
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bar {
+    width: 25px;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle { display: flex; }
+    .nav-links {
+        position: fixed;
+        right: -100%; /* 預設在螢幕外 */
+        top: 0;
+        height: 100vh;
+        width: 70%;
+        background: rgba(10, 10, 12, 0.98);
+        flex-direction: column;
+        justify-content: center;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-links.active { right: 0; }
+}/* 預設隱藏彈窗 */
+.purchase-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: none; /* 預設關閉 */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* 當 JS 加上 show-modal 類名時，彈窗立刻打開 */
+.purchase-modal-overlay.show-modal {
+    display: flex;
+}/* ==========================================================================
+   頁內購買視窗 (Modal) 高級樣式 - 完全走類名控制
+   ========================================================================== */
+.purchase-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 11, 14, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none; /* 預設完全隱藏 */
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* 當動態加上 show-modal 類名時開啟 */
+.purchase-modal-overlay.show-modal {
+    display: flex;
+    opacity: 1;
+}
+
+.purchase-modal-box {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 24px;
+    padding: 32px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.purchase-modal-overlay.show-modal .purchase-modal-box {
+    transform: scale(1);
+}
+
+/* 內視窗物件細節 */
+.modal-item-icon {
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 10px rgba(255, 183, 3, 0.4));
+}
+
+.modal-item-name {
+    font-size: 1.5rem;
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.modal-item-desc {
+    font-size: 0.95rem;
+    color: #b3b3b3;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.modal-item-price {
+    font-size: 1.8rem;
+    color: #ffb703;
+    font-weight: 800;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* 彈窗按鈕區 */
+.modal-action-btns {
+    display: flex;
+    gap: 14px;
+}
+
+.close-modal-btn, .confirm-buy-btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.close-modal-btn {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.close-modal-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.confirm-buy-btn {
+    background: linear-gradient(135deg, #fb8500, #ffb703);
+    color: #000000;
+    box-shadow: 0 4px 15px rgba(251, 133, 0, 0.3);
+}
+
+.confirm-buy-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(251, 133, 0, 0.5);
+}
+
+.confirm-buy-btn:disabled {
+    background: #444444 !important;
+    color: #888888 !important;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* ==========================================================================
+   帳號綁定外觀：實時套用的跨裝置特效
+   ========================================================================== */
+/* 1. 流光金頭像動態閃爍 */
+.user-avatar {
+    transition: all 0.3s ease;
+}
+
+@keyframes pulse-gold {
+    0% { box-shadow: 0 0 12px #ffb703; }
+    50% { box-shadow: 0 0 22px #fb8500, 0 0 8px #ffb703; }
+    100% { box-shadow: 0 0 12px #ffb703; }
+}
+
+/* 2. 帳號擁有「暗黑網頁主題」外觀時，Body 自動增添的極黑濾鏡特效 */
+body.ultimate-dark-mode {
+    background-color: #090a0f !important;
+    color: #ffffff !important;
+    background-image: radial-gradient(circle at top right, rgba(33, 155, 188, 0.05), transparent 40%);
+}
+body.ultimate-dark-mode .reward-card.glass {
+    background: rgba(15, 18, 28, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}

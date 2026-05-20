@@ -168,7 +168,6 @@ body {
 footer { padding: 50px 0; text-align: center; border-top: 1px solid var(--glass-border); }
 .copyright { color: var(--gray); font-size: 0.85rem; }
 .video-container::after {
-    content: '🔇 影片預設靜音';
     position: absolute;
     top: 10px;
     right: 10px;
