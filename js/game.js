@@ -193,7 +193,7 @@
         if (!session) { window.renderLoginRequiredState(); return; }
         
         try {
-            const response = await fetch(`${DENO_API_BASE}/start-game`, {
+            const response = await fetch(`${DENO_API_BASE}/main`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
                 body: JSON.stringify({ targetQuests: num })
