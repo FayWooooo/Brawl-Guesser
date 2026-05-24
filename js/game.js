@@ -4,7 +4,7 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2bmVuY2Jma2JqvnN6c2dhbWRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMDQyMzksImV4cCI6MjA5MjY4MDIzOX0.MAjsnfYkS_vJC9WRG8aZMSmjU052d4R9yiYsj9fsVio';
     
     // 【核心綁定變數】
-    const DENO_API_BASE = 'https://wvnencbfkbjvszsgamdq.supabase.co/functions/v1/'; 
+    const DENO_API_BASE = 'https://wvnencbfkbjvszsgamdq.supabase.co/functions/v1'; 
 
     if (!window.supabaseClient) {
         window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
