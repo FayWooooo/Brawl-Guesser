@@ -102,15 +102,41 @@ function setupEventListeners() {
     });
 
     // 手機版選單
-    const mobileMenu = document.querySelector('.mobile-menu-toggle');
-    const navMenu = document.querySelector('.nav-menu-list');
-    if (mobileMenu && navMenu) {
-        mobileMenu.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            mobileMenu.classList.toggle('is-active');
-        });
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+    const menuOverlay = document.getElementById('menu-overlay');
+
+    function toggleMenu() {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+        
+        // 選單開啟時防止背景頁面捲動
+        document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
     }
 
+    // 監聽點擊事件
+    menuToggle.addEventListener('click', toggleMenu);
+    menuOverlay.addEventListener('click', toggleMenu);
+
+    // 點擊選單內的連結後自動關閉選單
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (navMenu.classList.contains('active')) toggleMenu();
+        });
+    });
+});
+async function login() {
+    await supabaseClient.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+            queryParams: { prompt: 'select_account' },
+            redirectTo: window.location.origin + window.location.pathname
+        }
+    });
+}
     // 【購買按鈕點擊委派】包含未登入攔截
     const shopGrid = document.querySelector('.shop-grid');
     if (shopGrid) {
@@ -119,7 +145,7 @@ function setupEventListeners() {
                 const { data: { user } } = await supabaseInstance.auth.getUser();
                 if (!user) {
                     alert('請先登入後再進行商品兌換！');
-                    window.location.href = 'login.html';
+                    login()
                     return;
                 }
 
@@ -327,8 +353,33 @@ async function checkUserStatus() {
         const loginNavBtn = authSection.querySelector('.style-login-nav');
         if (loginNavBtn) {
             loginNavBtn.addEventListener('click', () => {
-                window.location.href = 'login.html';
+                login();
             });
         }
     }
-}
+}document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+    const menuOverlay = document.getElementById('menu-overlay');
+
+    function toggleMenu() {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+        
+        // 選單開啟時防止背景頁面捲動
+        document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+    }
+
+    // 監聽點擊事件
+    menuToggle.addEventListener('click', toggleMenu);
+    menuOverlay.addEventListener('click', toggleMenu);
+
+    // 點擊選單內的連結後自動關閉選單
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (navMenu.classList.contains('active')) toggleMenu();
+        });
+    });
+});

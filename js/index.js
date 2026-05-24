@@ -124,7 +124,7 @@ async function renderUserUI(user) {
                         <div class="menu-name" style="font-weight:bold; color:#fff;">${user.user_metadata.full_name || '使用者'}</div>
                         <div class="menu-email" style="font-size:12px; color:#888;">${user.email}</div>
                     </div>
-                    <a href="profile.html" style="display:block; color:#fff; text-decoration:none; margin:12px 0;"><i class="fa-solid fa-circle-user"></i> 個人主頁</a>
+                    <a href="shop.html" style="display:block; color:#fff; text-decoration:none; margin:12px 0;"><i class="fa-solid fa-circle-user"></i> 兌換商城</a>
                     <a href="quests.html" style="display:block; color:#fff; text-decoration:none; margin:12px 0;"><i class="fa-solid fa-star"></i> 我的任務</a>
                     <button onclick="logout()" class="btn-logout" style="width:100%; background:#ff4d4d; border:none; color:#fff; padding:10px; border-radius:8px; cursor:pointer; margin-top:10px; font-weight: bold;">
                         <i class="fa-solid fa-right-from-bracket"></i> 登出帳號
