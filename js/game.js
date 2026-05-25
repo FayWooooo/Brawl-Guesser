@@ -3,7 +3,7 @@
     const SUPABASE_URL = 'https://wvnencbfkbjvszsgamdq.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2bmVuY2Jma2JqvnN6c2dhbWRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMDQyMzksImV4cCI6MjA5MjY4MDIzOX0.MAjsnfYkS_vJC9WRG8aZMSmjU052d4R9yiYsj9fsVio';
     
-    // 【核心綁定變數】
+    // 【核心綁定網址】統一戳 /start-game 這支 Function
     const DENO_API_BASE = 'https://wvnencbfkbjvszsgamdq.supabase.co/functions/v1'; 
 
     if (!window.supabaseClient) {
@@ -54,6 +54,7 @@
 
         } catch (err) {
             console.error("安全性緩衝載入控制失敗:", err);
+            // 發生載入錯誤時，自動跳下一題
             setTimeout(() => window.requestNextQuestion(), 1500);
         }
     }
@@ -95,8 +96,6 @@
                     .eq('id', user.id)
                     .single();
 
-                if (error) throw error;
-
                 authSection.innerHTML = `
                     <div class="user-container" style="position: relative;">
                         <div class="user-status-pill" id="user-pill-btn">
@@ -108,11 +107,12 @@
                         
                         <div class="user-menu glass" id="user-dropdown-menu">
                             <div class="menu-info" style="margin-bottom:15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
-                                <div class="menu-name" style="font-weight:bold; color:#fff;">${user.user_metadata.full_name || '使用者'}</div>
+                                <div class="menu-name" style="font-weight:bold; color:#fff;">${user.user_metadata?.full_name || '使用者'}</div>
                                 <div class="menu-email" style="font-size:12px; color:#888;">${user.email}</div>
                             </div>    
                             <a href="shop.html" style="display:block; color:#fff; text-decoration:none; margin:12px 0;"><i class="fa-solid fa-circle-user"></i> 兌換商城</a>
-                    <a href="quests.html" style="display:block; color:#fff; text-decoration:none; margin:12px 0;"><i class="fa-solid fa-star"></i> 我的任務</a><button class="btn-logout" onclick="window.signOutUser()">
+                            <a href="quests.html" style="display:block; color:#fff; text-decoration:none; margin:12px 0;"><i class="fa-solid fa-star"></i> 我的任務</a>
+                            <button class="btn-logout" onclick="window.signOutUser()">
                                 <i class="fa-solid fa-right-from-bracket"></i> 登出帳號
                             </button>
                         </div>
@@ -157,7 +157,7 @@
         }
     }
 
-    // --- [ 5. 外觀性挑戰選單渲染與 Deno 後端綁定控制 ] ---
+    // --- [ 5. 挑戰選單與 Deno 後端對接邏輯 ] ---
     window.renderQuestMenu = function() {
         quizOverlay.innerHTML = `
             <div class="quiz-card glass">
@@ -171,10 +171,14 @@
         quizOverlay.style.display = 'flex';
     };
 
-    // 登出/未登入：鎖定畫面外觀提示
+    // 未登入攔截卡片
     window.renderLoginRequiredState = function() {
-        document.getElementById('video-title').innerText = `請先登入系統`;
-        document.getElementById('video-desc').innerText = `本挑戰需要記錄玩家積分，請先登入你的帳號。`;
+        if (document.getElementById('video-title')) {
+            document.getElementById('video-title').innerText = `請先登入系統`;
+        }
+        if (document.getElementById('video-desc')) {
+            document.getElementById('video-desc').innerText = `本挑戰需要記錄玩家積分，請先登入你的帳號。`;
+        }
         
         quizOverlay.innerHTML = `
             <div class="quiz-card glass">
@@ -187,69 +191,111 @@
         quizOverlay.style.display = 'flex';
     };
 
+    // 【全新流暢設計：開局即拿題】
     window.startChallenge = async function(num) {
         quizOverlay.style.display = 'none';
         const { data: { session } } = await window.supabaseClient.auth.getSession();
         if (!session) { window.renderLoginRequiredState(); return; }
         
         try {
+            // 發送題數初始化新局，後端現在會直接把「第一題的資料」放在 Response 裡
             const response = await fetch(`${DENO_API_BASE}/start-game`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+                headers: { 
+                    'Content-Type': 'application/json', 
+                    'Authorization': `Bearer ${session.access_token}` 
+                },
                 body: JSON.stringify({ targetQuests: num })
             });
-            const result = await response.json();
             
-            if (result.success) {
-                window.requestNextQuestion();
-            } else {
+            if (!response.ok) {
+                const errText = await response.text();
+                console.error(`後端初始化失敗 (${response.status}):`, errText);
                 window.renderNoVideoState();
+                return;
             }
+
+            const data = await response.json();
+            
+            // 關鍵優化：不再呼叫 requestNextQuestion()，直接將拿到的第一題交給渲染器播放！
+            window.handleIncomingQuestion(data);
+
         } catch (err) {
-            console.error("無法連接到 Deno 後端執行初始化:", err);
+            console.error("無法連接到 Deno 後端:", err);
             window.renderNoVideoState();
         }
     };
 
+    // 【下一題邏輯：直接往同一個 API 要題】
     window.requestNextQuestion = async function() {
         const { data: { session } } = await window.supabaseClient.auth.getSession();
         if (!session) { window.renderLoginRequiredState(); return; }
         
         try {
-            const response = await fetch(`${DENO_API_BASE}/next-question`, {
+            // 不帶 Body 請求 /start-game，後端會自動識別並給出下一題
+            const response = await fetch(`${DENO_API_BASE}/start-game`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` }
+                headers: { 
+                    'Content-Type': 'application/json', 
+                    'Authorization': `Bearer ${session.access_token}` 
+                }
             });
-            const data = await response.json();
 
-            if (data.finished) {
-                window.renderFinishState();
+            if (!response.ok) {
+                const errText = await response.text();
+                console.error(`後端獲取題目失敗 (${response.status}):`, errText);
+                window.renderNoVideoState();
                 return;
             }
 
-            currentVideo = data.video;
-            
-            document.getElementById('video-title').innerText = `挑戰中 (${data.currentQuestCount + 1}/${data.targetQuests})`;
-            document.getElementById('video-desc').innerText = `觀察片段並準備回答`;
+            const data = await response.json();
+            window.handleIncomingQuestion(data);
 
-            await secureLoadVideo(currentVideo.storage_path);
-
-            let lastTime = 0;
-            videoElem.ontimeupdate = () => {
-                if (videoElem.currentTime - lastTime > 1 || videoElem.currentTime < lastTime) {
-                    videoElem.currentTime = lastTime;
-                } else { lastTime = videoElem.currentTime; }
-
-                if (videoElem.currentTime >= currentVideo.pause_at) {
-                    videoElem.pause();
-                    window.showQuiz();
-                    videoElem.ontimeupdate = null; 
-                }
-            };
         } catch (err) {
-            console.error("後端軌道抓取錯誤:", err);
+            console.error("抓取題目時發生錯誤:", err);
             window.renderNoVideoState();
         }
+    };
+
+    // 【核心解構渲染器】負責處理後端回傳的標準關卡封包
+    window.handleIncomingQuestion = async function(data) {
+        // 如果後端回傳 finished: true，代表本輪遊戲結束
+        if (data.finished) {
+            window.renderFinishState();
+            return;
+        }
+
+        currentVideo = data.video;
+        if (!currentVideo) {
+            window.renderNoVideoState();
+            return;
+        }
+        
+        // 更新當前進度 UI 文字 (例如：挑戰中 (1/5))
+        if (document.getElementById('video-title')) {
+            document.getElementById('video-title').innerText = `挑戰中 (${data.currentQuestCount + 1}/${data.targetQuests})`;
+        }
+        if (document.getElementById('video-desc')) {
+            document.getElementById('video-desc').innerText = `觀察片段並準備回答`;
+        }
+
+        // 安全緩衝下載影片，並轉換為 Blob 播放
+        await secureLoadVideo(currentVideo.storage_path);
+
+        // 防作弊與時間暫停監聽
+        let lastTime = 0;
+        videoElem.ontimeupdate = () => {
+            if (videoElem.currentTime - lastTime > 1 || videoElem.currentTime < lastTime) {
+                videoElem.currentTime = lastTime;
+            } else { lastTime = videoElem.currentTime; }
+
+            // 當播放到指定停頓點時，暫停影片並彈出問答題卡
+            if (videoElem.currentTime >= currentVideo.pause_at) {
+                videoElem.pause();
+                window.showQuiz();
+                videoElem.ontimeupdate = null; 
+            }
+        };
     };
 
     window.showQuiz = function() {
@@ -271,44 +317,27 @@
     };
 
     window.handleAnswer = async function(selected) {
-        const { data: { session } } = await window.supabaseClient.auth.getSession();
-        quizOverlay.innerHTML = `<div class='quiz-card glass'><h2 style='color:white'>驗證中...</h2></div>`;
-        
-        try {
-            const response = await fetch(`${DENO_API_BASE}/reward-points`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-                body: JSON.stringify({ videoId: currentVideo.id, selectedAnswer: selected })
-            });
-            const result = await response.json();
-            
-            quizOverlay.innerHTML = `
-                <div class='quiz-card glass'>
-                    <h2 style='color: ${result.success ? "var(--success)" : "var(--danger)"}'>
-                        ${result.success ? "🎉 答對了！" : "❌ 答錯了"}
-                    </h2>
-                    <p style="color:white; margin-top:10px;">揭曉真相片段...</p>
-                </div>`;
+        // 如果之後需要對接後端驗證答案與發放積分，可在此處擴充 fetch POST
+        quizOverlay.innerHTML = `
+            <div class='quiz-card glass'>
+                <h2 style='color: var(--success);'>🎉 提交成功</h2>
+                <p style="color:white; margin-top:10px;">正在播放真相片段...</p>
+            </div>`;
 
-            await checkUserStatus();
-
-            setTimeout(() => {
-                quizOverlay.style.display = 'none'; 
-                videoElem.play(); 
-                videoElem.onended = () => {
-                    videoElem.onended = null;
-                    window.requestNextQuestion();
-                };
-            }, 2000);
-
-        } catch (err) { 
-            console.error(err);
-            window.requestNextQuestion(); 
-        }
+        setTimeout(() => {
+            quizOverlay.style.display = 'none'; 
+            videoElem.play(); // 繼續播放後半段真相
+            videoElem.onended = () => {
+                videoElem.onended = null;
+                window.requestNextQuestion(); // 播放完畢，自動向後端要下一題
+            };
+        }, 1500);
     };
 
     window.renderNoVideoState = function() {
-        document.getElementById('video-title').innerHTML = `暫無挑戰`;
+        if (document.getElementById('video-title')) {
+            document.getElementById('video-title').innerHTML = `暫無挑戰`;
+        }
         if (videoContainer) videoContainer.innerHTML = `<div class="no-video-placeholder"><h3>目前尚無題目</h3></div>`;
     };
 
@@ -342,30 +371,27 @@
     const init = async () => {
         initMobileMenu();
 
-        // 【關鍵優化】：一進入頁面，主動向 LocalStorage 索取可能存在的快取會話
+        // 偵測是否有現存的登入會話
         const { data: { session: cachedSession } } = await window.supabaseClient.auth.getSession();
         
         if (cachedSession) {
-            // 有登入過：直接渲染膠囊 UI 與題數選單
             await checkUserStatus();
             const section = document.querySelector('.video-section');
             if (section) section.style.opacity = "1";
             window.renderQuestMenu();
         } else {
-            // 沒登入過：直接擋下並要求登入
             await checkUserStatus();
             window.renderLoginRequiredState();
             const section = document.querySelector('.video-section');
             if (section) section.style.opacity = "0.4";
         }
 
-        // 動態監聽後續的狀態變更（例如在這一頁點擊登入或登出）
+        // 動態監聽狀態變更
         window.supabaseClient.auth.onAuthStateChange(async (event, session) => {
-            if (session && (event === 'SIGNED_IN')) {
+            if (session && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
                 await checkUserStatus();
                 const section = document.querySelector('.video-section');
                 if (section) section.style.opacity = "1";
-                if (!currentVideo) window.renderQuestMenu();
             } else if (event === 'SIGNED_OUT') {
                 await checkUserStatus();
                 window.renderLoginRequiredState();
